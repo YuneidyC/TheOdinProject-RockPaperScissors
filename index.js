@@ -29,8 +29,6 @@ function getHumanChoice() {
         else {
             humanCount++;
         }
-        console.log("computer count: " + computerCount);
-        console.log("human count: " + humanCount);
     }
 
     if (humanCount === 5) {
