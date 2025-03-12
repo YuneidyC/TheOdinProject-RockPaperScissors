@@ -1,41 +1,84 @@
-function getComputerChoice(array) {
-    const randomIndex = Math.floor(Math.random() * array.length);
-    const item = array[randomIndex];
-    return item;
-}
+let machineCount = 0;
+let humanCount = 0;
+let drawCount = 0;
 
-function getHumanChoice() {
-    let computerCount = 0;
-    let humanCount = 0;
-    let choices = ["Rock", "Paper", "Scissors"];
+const text = document.getElementsByClassName('text')[0];
+const humanCounter = document.getElementsByClassName('humanCounter')[0];
+const machineCounter = document.getElementsByClassName('machineCounter')[0];
+const drawCounter = document.getElementsByClassName('drawCounter')[0];
 
-    while (computerCount < 5 && humanCount < 5)
-    {
-        let option = prompt(`What's your choice? (${choices[0]}, ${choices[1]} or ${choices[2]})`);
-        let computerChoice = getComputerChoice(choices);
+const resetButton = document.getElementById('reset');
+resetButton.addEventListener('click', resetValues);
+resetButton.disabled = true;
 
-        if (option === computerChoice) {
-            alert("It's a tie!");
+const buttons = document.getElementsByClassName('humanChoice');
+Array.from(buttons).forEach(button => {
+    button.addEventListener('click', getHumanChoice);
+});
+
+function getHumanChoice(event) {
+    text.innerHTML = "";
+    const humanChoice = event.target;
+    let computerChoice = getComputerChoice();
+
+    if (humanChoice.value === computerChoice) {
+        text.innerHTML = "Draw!";
+        drawCount++;
+        drawCounter.innerHTML = drawCount;
+    }
+    else if (machineCount < 5 && humanCount < 5) {
+        if (computerChoice === "Rock" && humanChoice.value === "Scissors") {
+            machineCount++;
         }
-        else if (computerChoice === "Rock" && option === "Scissors") {
-            computerCount++;
+        else if (computerChoice === "Scissors" && humanChoice.value === "Paper") {
+            machineCount++;
         }
-        else if (computerChoice === "Scissors" && option === "Paper") {
-            computerCount++;
-        }
-        else if (computerChoice === "Paper" && option === "Rock") {
-            computerCount++;
+        else if (computerChoice === "Paper" && humanChoice.value === "Rock") {
+            machineCount++;
         }
         else {
             humanCount++;
         }
     }
 
-    if (humanCount === 5) {
-        return alert("You win!");
-    }
+    humanCounter.innerHTML = humanCount;
+    machineCounter.innerHTML = machineCount;
 
-    return alert("Computer win!");
+    if (humanCount === 5 || machineCount === 5) {
+        rock.disabled = true;
+        paper.disabled = true;
+        scissors.disabled = true;
+        resetButton.disabled = false;
+
+        if (humanCount === 5) {
+            text.innerHTML = "You win!";
+        }
+        else {text.innerHTML = "Computer win!";
+        }
+    }
 }
 
-getHumanChoice();
+function getComputerChoice() {
+    let choices = ["Rock", "Paper", "Scissors"];
+    const randomIndex = Math.floor(Math.random() * choices.length);
+    const item = choices[randomIndex];
+    return item;
+}
+
+function resetValues() {
+    Array.from(buttons).forEach(button => {
+        button.disabled = false;
+    });
+
+    resetButton.disabled = true;
+
+    humanCount = 0;
+    machineCount = 0;
+    drawCount = 0;
+
+    humanCounter.innerHTML = humanCount;
+    machineCounter.innerHTML = machineCount;
+    drawCounter.innerHTML = drawCount;
+
+    text.innerHTML = "";
+}
