@@ -8,19 +8,19 @@ const machineCounter = document.getElementsByClassName('machineCounter')[0];
 const drawCounter = document.getElementsByClassName('drawCounter')[0];
 
 const resetButton = document.getElementById('reset');
-resetButton.addEventListener('click', resetValues);
+resetButton.addEventListener('click', resetValues, { capture: true });
 resetButton.disabled = true;
 
-const buttons = document.getElementsByClassName('humanChoice');
+const buttons = document.getElementsByClassName('human-choice');
 Array.from(buttons).forEach(button => {
-    button.addEventListener('click', getHumanChoice);
+    button.addEventListener('click', getHumanChoice, { capture: true });
 });
 
 function getHumanChoice(event) {
     text.innerHTML = "";
     const humanChoice = event.target;
     let computerChoice = getComputerChoice();
-
+    
     if (humanChoice.value === computerChoice) {
         text.innerHTML = "Draw!";
         drawCount++;
@@ -40,20 +40,21 @@ function getHumanChoice(event) {
             humanCount++;
         }
     }
-
+    
     humanCounter.innerHTML = humanCount;
     machineCounter.innerHTML = machineCount;
-
+    
     if (humanCount === 5 || machineCount === 5) {
         rock.disabled = true;
         paper.disabled = true;
         scissors.disabled = true;
         resetButton.disabled = false;
-
+        
         if (humanCount === 5) {
-            text.innerHTML = "You win!";
+            text.innerHTML = "Congratulations, You win!";
+            text.classList.add('win');
         }
-        else {text.innerHTML = "Computer win!";
+        else {text.innerHTML = "You lose!";
         }
     }
 }
@@ -69,16 +70,16 @@ function resetValues() {
     Array.from(buttons).forEach(button => {
         button.disabled = false;
     });
-
     resetButton.disabled = true;
-
+    
     humanCount = 0;
     machineCount = 0;
     drawCount = 0;
-
+    
     humanCounter.innerHTML = humanCount;
     machineCounter.innerHTML = machineCount;
     drawCounter.innerHTML = drawCount;
 
     text.innerHTML = "";
+    text.classList.remove('win');
 }
