@@ -62,7 +62,14 @@ p {
 }
 
 h2 {
-    margin-top: 200px;
+    margin-top: 150px;
+}
+
+.buttons-container > .machine-choice {
+    rotate: 180deg;
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
 }
 
 button {

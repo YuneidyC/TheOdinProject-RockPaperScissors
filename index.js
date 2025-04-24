@@ -17,10 +17,13 @@ Array.from(buttons).forEach(button => {
 });
 
 function getHumanChoice(event) {
-    text.innerHTML = "";
     const humanChoice = event.target;
+    text.innerHTML = "";
+
+    resetStyle(document.getElementsByClassName('machine-choice'), '0.5');
+
     let computerChoice = getComputerChoice();
-    
+
     if (humanChoice.value === computerChoice) {
         text.innerHTML = "Draw!";
         drawCount++;
@@ -40,7 +43,7 @@ function getHumanChoice(event) {
             humanCount++;
         }
     }
-    
+
     humanCounter.innerHTML = humanCount;
     machineCounter.innerHTML = machineCount;
     
@@ -49,7 +52,10 @@ function getHumanChoice(event) {
         paper.disabled = true;
         scissors.disabled = true;
         resetButton.disabled = false;
-        
+
+        resetStyle(buttons, '0.5');
+        resetStyle(document.getElementsByClassName('machine-choice'), '0.5');
+
         if (humanCount === 5) {
             text.innerHTML = "Congratulations, You win!";
             text.classList.add('win');
@@ -59,10 +65,24 @@ function getHumanChoice(event) {
     }
 }
 
+function resetStyle(element, opacity) {
+    for (let i = 0; i < element.length; i++) {
+        element[i].style.opacity = opacity;
+    }
+}
+
 function getComputerChoice() {
     let choices = ["Rock", "Paper", "Scissors"];
     const randomIndex = Math.floor(Math.random() * choices.length);
     const item = choices[randomIndex];
+    const machineButton = document.getElementsByClassName('machine-choice');
+
+    for (let i = 0; i < machineButton.length; i++) {
+        if (machineButton[i].value === item) {
+            machineButton[i].style.opacity = '1';
+        }
+    }
+
     return item;
 }
 
@@ -71,15 +91,17 @@ function resetValues() {
         button.disabled = false;
     });
     resetButton.disabled = true;
-    
+
     humanCount = 0;
     machineCount = 0;
     drawCount = 0;
-    
+
     humanCounter.innerHTML = humanCount;
     machineCounter.innerHTML = machineCount;
     drawCounter.innerHTML = drawCount;
 
     text.innerHTML = "";
     text.classList.remove('win');
+
+    resetStyle(buttons, '1');
 }
