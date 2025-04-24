@@ -3,9 +3,9 @@ let humanCount = 0;
 let drawCount = 0;
 
 const text = document.getElementsByClassName('text')[0];
-const humanCounter = document.getElementsByClassName('humanCounter')[0];
-const machineCounter = document.getElementsByClassName('machineCounter')[0];
-const drawCounter = document.getElementsByClassName('drawCounter')[0];
+const humanCounter = document.getElementsByClassName('human-counter-number')[0];
+const machineCounter = document.getElementsByClassName('machine-counter-number')[0];
+const drawCounter = document.getElementsByClassName('draw-counter-number')[0];
 
 const resetButton = document.getElementById('reset');
 resetButton.addEventListener('click', resetValues, { capture: true });
